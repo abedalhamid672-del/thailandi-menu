@@ -202,6 +202,7 @@ to regenerate the favicon, the app icons, the small WebP versions and `og-image.
 The output is a static `dist/` folder.
 
 - **Vercel**: import the repo. Build command `npm run build`, output directory `dist` (auto-detected for Vite). `vercel.json` adds long caching for hashed assets.
+- **Cloudflare**: `npm run deploy` (builds, then `wrangler deploy` using `wrangler.jsonc`; run `npx wrangler login` once).
 - **Netlify**: build command `npm run build`, publish directory `dist`. `public/_headers` adds the same caching.
 - **Any static host**: upload `dist/`. Unknown URLs should serve `dist/404.html`.
 
