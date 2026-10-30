@@ -24,7 +24,7 @@ export const site = {
   cityEn: 'Gaza',
 
   /** Public URL of the deployed site — used for canonical, Open Graph and share links. */
-  url: 'https://tailandi.company', // TODO: change to the new domain after deploying
+  url: 'https://thailandi-menu.abedalhamid672.workers.dev', // TODO: replace with the custom domain if one is connected
 
   /** Local mobile number as customers dial it. */
   phone: '0592830888',
