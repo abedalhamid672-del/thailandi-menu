@@ -1,0 +1,137 @@
+@import 'tailwindcss';
+
+/* Brand palette — every colour in the components comes from these tokens. */
+@theme {
+  --color-brown-950: #2b1810;
+  --color-brown-900: #3e2415;
+  --color-brown-700: #6b4226;
+  --color-brown-500: #8b5e3c;
+  --color-latte-300: #c8a27a;
+  --color-latte-200: #dcc3a3;
+  --color-latte-100: #efe2d0;
+  --color-cream-50: #faf4ea;
+  --color-gold-500: #c9a227;
+  --color-whatsapp: #1fa855;
+  --color-chili: #c2410c;
+
+  --font-sans: 'Cairo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Reem Kufi', 'Cairo', serif;
+
+  --shadow-card: 0 1px 2px rgb(43 24 16 / 0.06), 0 8px 24px -8px rgb(43 24 16 / 0.18);
+  --shadow-lift: 0 2px 4px rgb(43 24 16 / 0.08), 0 22px 44px -14px rgb(43 24 16 / 0.35);
+
+  --animate-shimmer: shimmer 1.6s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+
+  @keyframes shimmer {
+    to { background-position: -200% 0; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-14px) rotate(2deg); }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.55; }
+    100% { transform: scale(1.7); opacity: 0; }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-cream-50 font-sans text-brown-900 antialiased;
+    line-height: 1.75;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3 {
+    line-height: 1.35;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold-500;
+  }
+  /* Sections land below the sticky navbar + category bar when linked. */
+  [id] {
+    scroll-margin-top: 8rem;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0;
+}
+
+/* Paper grain used on the hero and dark sections (inline SVG, no request). */
+@utility grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.93 0 0 0 0 0.86 0 0 0 0 0.76 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility shimmer-bg {
+  background: linear-gradient(100deg, var(--color-latte-100) 30%, var(--color-cream-50) 50%, var(--color-latte-100) 70%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/*
+ * The full menu is ~80 cards. Off-screen category sections skip style, layout
+ * and paint until they near the viewport; the reserved height is estimated from
+ * the row count (set inline per section) so the scrollbar and anchor jumps stay accurate.
+ */
+.menu-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto calc(var(--rows-1) * 470px + 150px);
+}
+@media (min-width: 640px) {
+  .menu-section { contain-intrinsic-size: auto calc(var(--rows-2) * 430px + 150px); }
+}
+@media (min-width: 1024px) {
+  .menu-section { contain-intrinsic-size: auto calc(var(--rows-3) * 450px + 150px); }
+}
+@media (min-width: 1280px) {
+  .menu-section { contain-intrinsic-size: auto calc(var(--rows-4) * 430px + 150px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print a clean, ink-friendly menu: no chrome, photos or buttons. */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+  .no-print, nav, header, footer, dialog, [role='dialog'], button, iframe {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  article, section {
+    break-inside: avoid;
+    box-shadow: none !important;
+  }
+  img {
+    display: none !important;
+  }
+}

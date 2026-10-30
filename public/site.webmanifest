@@ -1,0 +1,14 @@
+{
+  "name": "مطعم التايلندي",
+  "short_name": "التايلندي",
+  "lang": "ar",
+  "dir": "rtl",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF4EA",
+  "theme_color": "#2B1810",
+  "icons": [
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/logo-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
