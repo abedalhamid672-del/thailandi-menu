@@ -11,6 +11,15 @@ import { DishImage } from './ui/DishImage.tsx';
 import { WhatsAppIcon } from './ui/icons.tsx';
 
 const DETAILS_KEY = 'thailandi:order-details';
+const MAX_NAME = 60;
+const MAX_NOTES = 400; // keeps the wa.me link well under browser URL limits
+
+/** Stored values are user-editable: keep only strings, trimmed to the field limits. */
+function loadDetails(): { name: string; notes: string } {
+  const raw = readJson<Record<string, unknown>>(DETAILS_KEY, {});
+  const text = (v: unknown, max: number) => (typeof v === 'string' ? v.slice(0, max) : '');
+  return { name: text(raw?.name, MAX_NAME), notes: text(raw?.notes, MAX_NOTES) };
+}
 
 /** Sticky bottom bar on phones: item count, running total and a one-tap send. */
 export function CartBar() {
@@ -60,7 +69,7 @@ function CartPanel() {
   const { t, locale, dishName, optionLabel } = useLocale();
   const { lines, total, setQty, remove, clear, setOpen } = useCart();
   const panelRef = useRef<HTMLDivElement>(null);
-  const [details, setDetails] = useState(() => readJson(DETAILS_KEY, { name: '', notes: '' }));
+  const [details, setDetails] = useState(loadDetails);
   useDialog(panelRef, true, () => setOpen(false));
 
   const updateDetails = (patch: Partial<typeof details>) => {
@@ -164,6 +173,7 @@ function CartPanel() {
                   value={details.name}
                   onChange={(e) => updateDetails({ name: e.target.value })}
                   autoComplete="name"
+                  maxLength={MAX_NAME}
                   className="h-11 w-full rounded-xl border border-latte-200 bg-cream-50 px-3 outline-none focus:border-brown-500 focus:ring-2 focus:ring-latte-200"
                 />
               </label>
@@ -173,6 +183,7 @@ function CartPanel() {
                   value={details.notes}
                   onChange={(e) => updateDetails({ notes: e.target.value })}
                   rows={2}
+                  maxLength={MAX_NOTES}
                   className="w-full resize-none rounded-xl border border-latte-200 bg-cream-50 px-3 py-2 outline-none focus:border-brown-500 focus:ring-2 focus:ring-latte-200"
                 />
               </label>

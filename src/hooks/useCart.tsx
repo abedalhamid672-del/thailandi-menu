@@ -35,6 +35,32 @@ function lineKey(dishId: string, sel: Selection): string {
   return [dishId, sel.sizeIndex ?? '-', [...sel.extras].sort((a, b) => a - b).join('.')].join('|');
 }
 
+/**
+ * localStorage is user-editable, so nothing read from it is trusted: every field is
+ * re-validated against the real menu, and the line key is rebuilt from the clean values.
+ */
+function sanitizeStored(raw: unknown): StoredLine[] {
+  if (!Array.isArray(raw)) return [];
+  const seen = new Set<string>();
+  const clean: StoredLine[] = [];
+  for (const item of raw.slice(0, 100)) {
+    if (typeof item !== 'object' || item === null) continue;
+    const { dishId, qty, sizeIndex, extras } = item as Record<string, unknown>;
+    const dish = typeof dishId === 'string' ? dishById.get(dishId) : undefined;
+    if (!dish || !Number.isInteger(qty) || (qty as number) < 1) continue;
+    const size = Number.isInteger(sizeIndex) && dish.sizes?.[sizeIndex as number] ? (sizeIndex as number) : undefined;
+    const validExtras = Array.isArray(extras)
+      ? [...new Set(extras.filter((x): x is number => Number.isInteger(x) && !!dish.extras?.[x as number]))]
+      : [];
+    const selection: Selection = { sizeIndex: size, extras: validExtras };
+    const key = lineKey(dish.id, selection);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    clean.push({ key, dishId: dish.id, qty: Math.min(MAX_QTY, qty as number), ...selection });
+  }
+  return clean;
+}
+
 export function CartProvider({ children }: { children: ReactNode }) {
   // Empty on first render to match the prerendered HTML; the saved cart loads after hydration.
   const [stored, setStored] = useState<StoredLine[]>([]);
@@ -42,7 +68,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
-    setStored(readJson<StoredLine[]>(STORAGE_KEY, []));
+    setStored(sanitizeStored(readJson<unknown>(STORAGE_KEY, [])));
     setLoaded(true);
   }, []);
 

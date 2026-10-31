@@ -253,3 +253,11 @@ with PageSpeed Insights after deploying.
 ---
 
 Created by Engineer Abdel Hamid Al-Khatib; WhatsApp number: +972597183082
+
+## Security
+
+Static site: no backend, database, accounts or API keys, so there is nothing server-side to attack. What is in place:
+
+- **Headers** (`public/_headers`): strict Content-Security-Policy (scripts only from the site itself; images only from the site and Unsplash; the Google Maps frame only), `frame-ancestors 'none'`, HSTS, `nosniff`, referrer and permissions policies. If you add a third-party script, font or image host, add it to the CSP or the browser will block it.
+- **Untrusted input**: the cart and order details come back from `localStorage`, which anyone can edit, so every field is re-validated against the real menu on load. Name and notes are length-limited, and React escapes all text. The WhatsApp message is URL-encoded.
+- **No secrets in the repo**: nothing to hide; `.env*` files are not used. Re-run `npm audit` after dependency changes.
