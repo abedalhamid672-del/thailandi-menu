@@ -26,6 +26,15 @@ export const site = {
   /** Public URL of the deployed site — used for canonical, Open Graph and share links. */
   url: 'https://thailandi-menu.abedalhamid672.workers.dev', // TODO: replace with the custom domain if one is connected
 
+  /** Credit line in the footer. */
+  developer: {
+    name: 'Engineer Abdel Hamid Al-Khatib',
+    github: 'https://github.com/abedalhamid672-del',
+    /** Shown as written; the link uses `whatsapp` (digits only). */
+    phoneDisplay: '+972597183082',
+    whatsapp: '972597183082',
+  },
+
   /** Local mobile number as customers dial it. */
   phone: '0592830888',
   /** International format, digits only, for wa.me links. */

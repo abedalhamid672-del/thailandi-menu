@@ -252,4 +252,4 @@ with PageSpeed Insights after deploying.
 
 ---
 
-مصمم بواسطة : ENG.Abdulhamed Alkatib
+Created by Engineer Abdel Hamid Al-Khatib; WhatsApp number: +972597183082

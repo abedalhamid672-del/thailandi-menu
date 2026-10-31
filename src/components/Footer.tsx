@@ -2,7 +2,7 @@ import { Phone } from 'lucide-react';
 import { site } from '../data/site.ts';
 import { useLocale } from '../hooks/useLocale.tsx';
 import { whatsappLink } from '../lib/whatsapp.ts';
-import { FacebookIcon, InstagramIcon, TikTokIcon, WhatsAppIcon } from './ui/icons.tsx';
+import { FacebookIcon, GitHubIcon, InstagramIcon, TikTokIcon, WhatsAppIcon } from './ui/icons.tsx';
 import { Ornament } from './ui/Ornament.tsx';
 
 export function Footer() {
@@ -73,12 +73,26 @@ export function Footer() {
 
       <div className="mx-auto mt-12 max-w-7xl px-4 sm:px-6">
         <Ornament tone="gold" />
-        {/* The year comes from the build; it may differ on the client right after New Year. */}
-        <p className="mt-6 text-center text-sm text-latte-300" suppressHydrationWarning>
-          © {new Date().getFullYear()} {name} — {t.footer.rights}
-        </p>
-        <p className="mt-3 text-center text-sm font-semibold text-latte-100" dir="rtl">
-          {t.footer.credit}
+        <p className="mt-6 text-center text-sm font-semibold text-latte-100" dir="ltr">
+          Created by{' '}
+          <a
+            href={site.developer.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 underline decoration-latte-300/60 underline-offset-4 hover:text-gold-500"
+          >
+            <GitHubIcon size={15} />
+            {site.developer.name}
+          </a>
+          ; WhatsApp number:{' '}
+          <a
+            href={`https://wa.me/${site.developer.whatsapp}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-latte-300/60 underline-offset-4 hover:text-gold-500"
+          >
+            {site.developer.phoneDisplay}
+          </a>
         </p>
       </div>
     </footer>

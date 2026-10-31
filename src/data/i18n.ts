@@ -112,8 +112,6 @@ const ar = {
   footer: {
     quickLinks: 'روابط سريعة',
     follow: 'تابعونا',
-    rights: 'جميع الحقوق محفوظة.',
-    credit: 'مصمم بواسطة : ENG.Abdulhamed Alkatib',
   },
   cart: {
     title: 'سلة الطلب',
@@ -265,8 +263,6 @@ const en: Strings = {
   footer: {
     quickLinks: 'Quick links',
     follow: 'Follow us',
-    rights: 'All rights reserved.',
-    credit: 'مصمم بواسطة : ENG.Abdulhamed Alkatib',
   },
   cart: {
     title: 'Your order',
